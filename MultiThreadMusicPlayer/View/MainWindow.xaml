@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MultiThreadMusicPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
         
+        Title="Media Player by DarkHacker228" Height="350" Width="525">
+    <Grid>
+       
     </Grid>
 </Window>
