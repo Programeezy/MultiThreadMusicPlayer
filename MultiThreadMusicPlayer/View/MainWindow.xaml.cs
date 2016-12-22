@@ -3,6 +3,7 @@ using MultiThreadMusicPlayer.Media;
 using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace MultiThreadMusicPlayer
@@ -12,10 +13,11 @@ namespace MultiThreadMusicPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        PlayList PListOne;
+        PlayList PListOne
+        {
+            get; set;
+        }
         PlayList PListTwo;
-        Track SelectedTrackOne;
-        Track SelectedTrackTwo;
         MediaPlayer MPlayerOne;
         MediaPlayer MPlayerTwo;
         private bool IsOpened;
@@ -27,25 +29,26 @@ namespace MultiThreadMusicPlayer
             MPlayerTwo = new MediaPlayer();
             PListOne = new PlayList();
             PListTwo = new PlayList();
+            PlayList_1.ItemsSource = PListOne;
+            PlayList_2.ItemsSource = PListTwo;
         }
 
-        private void Play(object player)
+        private void Play(Track selectedTrack)
         {
-            MediaPlayer Player = player as MediaPlayer;
-            Player.Play();
+            if (selectedTrack != null)
+                selectedTrack.Open(new Uri(selectedTrack.ID, UriKind.Absolute));
+            selectedTrack.Play();
         }
 
-        private void Pause(object player)
+        private void Pause(Track selectedTrack)
         {
-            var Player = player as MediaPlayer;
-            Player.Pause();
+            selectedTrack.Pause();
 
         }
 
-        private void Stop(object player)
+        private void Stop(Track selectedTrack)
         {
-            var Player = player as MediaPlayer;
-            Player.Stop();
+            selectedTrack.Stop();
         }
 
         private void Open_Track_1(object sender, RoutedEventArgs e)
@@ -57,27 +60,25 @@ namespace MultiThreadMusicPlayer
             
             if (result == true)
             {
-                PListOne.Add(new Track() { Name = fd.Title, ID = fd.FileName  });
-               // MPlayerOne.Open(new Uri(fd.FileName, UriKind.Absolute));
-                IsOpened = true;
+                PListOne.Add(new Track { Name = fd.FileName, ID = fd.FileName, Rating = 1 });
+                PlayList_1.ItemsSource = PListOne;
             }
         }
 
         private void Play_1(object sender, RoutedEventArgs e)
         {
-            if (IsOpened)
-                Dispatcher.BeginInvoke(new ParameterizedThreadStart(Play), MPlayerOne, SelectedTrackOne);
+                Dispatcher.BeginInvoke(new Action<Track>(Play), PlayList_1.SelectedItem);
 
         }
 
         private void Pause_1(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Pause), MPlayerOne, SelectedTrackOne);
+            Dispatcher.BeginInvoke(new Action<Track>(Pause), PlayList_1.SelectedItem);
         }
 
         private void Stop_1(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Stop), MPlayerOne, SelectedTrackOne);
+            Dispatcher.BeginInvoke(new Action<Track>(Stop), PlayList_1.SelectedItem);
         }
 
         private void Open_Track_2(object sender, RoutedEventArgs e)
@@ -89,8 +90,8 @@ namespace MultiThreadMusicPlayer
 
             if (result == true)
             {
-                PListTwo.Add(new Track() { Name = fd.Title, ID = fd.FileName });
-               // MPlayerTwo.Open(new Uri(fd.FileName, UriKind.Absolute));
+                PListTwo.Add(new Track() { Name = fd.FileName, ID = fd.FileName });
+               
                 IsOpened = true;
             }
         }
@@ -98,18 +99,18 @@ namespace MultiThreadMusicPlayer
         private void Play_2(object sender, RoutedEventArgs e)
         {
             if (IsOpened)
-                Dispatcher.BeginInvoke(new ParameterizedThreadStart(Play), MPlayerTwo);
+                Dispatcher.BeginInvoke(new Action<Track>(Play), PlayList_2.SelectedItem);
 
         }
 
         private void Pause_2(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Pause), MPlayerTwo);
+            Dispatcher.BeginInvoke(new Action<Track>(Pause), PlayList_2.SelectedItem);
         }
 
         private void Stop_2(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Stop), MPlayerTwo);
+            Dispatcher.BeginInvoke(new Action<Track>(Stop), PlayList_2.SelectedItem);
         }
 
 

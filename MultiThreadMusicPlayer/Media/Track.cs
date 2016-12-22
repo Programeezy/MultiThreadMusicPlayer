@@ -66,5 +66,10 @@ namespace MultiThreadMusicPlayer.Media
                 _Rating = value;
             }
         }
+
+        public Track()
+        {
+            Rating = 0;
+        }
     }
 }

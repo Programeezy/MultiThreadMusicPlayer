@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MultiThreadMusicPlayer.Media
 {
-    public class PlayList : IEnumerable
+    public class PlayList : IEnumerable, INotifyCollectionChanged
     {
         private Track[] _Tracks = new Track[0];
 
@@ -42,6 +43,8 @@ namespace MultiThreadMusicPlayer.Media
 
         private int _Count;
 
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         public int Count
         {
             get { return _Count; }
@@ -65,6 +68,7 @@ namespace MultiThreadMusicPlayer.Media
 
             _Tracks[_Count] = track;
             _Count++;
+            OnCollectionChanged();
             RefreshRating();
 
         }
@@ -111,10 +115,14 @@ namespace MultiThreadMusicPlayer.Media
 
         }
 
+        public void OnCollectionChanged()
+        {
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
 
         public IEnumerator GetEnumerator()
         {
-            for (int i = 0; i < _Tracks.Length; i++)
+            for (int i = 0; i < Count; i++)
                 yield return _Tracks[i];      
         }
     }
