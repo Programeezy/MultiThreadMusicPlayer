@@ -5,9 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MultiThreadMusicPlayer"
         mc:Ignorable="d"
-        
-        Title="Media Player by DarkHacker228" Height="350" Width="525">
-    <Grid>
-       
+        Title="Media Player by DarkHacker228" Height="350" Width="514.474">
+    <Grid Margin="0,0,205,0">
+        <TabControl x:Name="tabControl" Margin="10,0,-197,10">
+            <TabItem Header="Thread 1"  Height="23" VerticalAlignment="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Button Content="Open" Click="Open_Track_1"/>
+                        <Button Content="Play" Click="Play_1"/>
+                        <Button Content="Pause" Click="Pause_1"/>
+                        <Button Content="Stop" Click="Stop_1" />
+                    </StackPanel>
+                    <ListBox Name="PlayList_1" Grid.Column="1" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Thread 2">
+                <Grid>
+                    <StackPanel>
+                        <Button Content="Open" Click="Open_Track_2"/>
+                        <Button Content="Play" Click="Play_2"/>
+                        <Button Content="Pause" Click="Pause_2"/>
+                        <Button Content="Stop" Click="Stop_2" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </Window>
