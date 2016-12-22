@@ -35,7 +35,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <Button Style="{StaticResource m_btn}" Content="Open" Click="Open_Track_2"/>
+                        <Button  Content="Open" Click="Open_Track_2"/>
                         <Button Content="Play" Click="Play_2"/>
                         <Button Content="Pause" Click="Pause_2"/>
                         <Button Content="Stop" Click="Stop_2" />

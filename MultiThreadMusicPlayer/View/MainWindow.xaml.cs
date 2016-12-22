@@ -18,15 +18,13 @@ namespace MultiThreadMusicPlayer
             get; set;
         }
         PlayList PListTwo;
-        MediaPlayer MPlayerOne;
-        MediaPlayer MPlayerTwo;
+
         private bool IsOpened;
 
         public MainWindow()
         {
             InitializeComponent();
-            MPlayerOne = new MediaPlayer();
-            MPlayerTwo = new MediaPlayer();
+           
             PListOne = new PlayList();
             PListTwo = new PlayList();
             PlayList_1.ItemsSource = PListOne;
