@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace MultiThreadMusicPlayer.Media
 {
-    public class Track
+    public class Track : MediaPlayer
     {
         public enum Genres { Rock, Rap, Classic, Electro};
 

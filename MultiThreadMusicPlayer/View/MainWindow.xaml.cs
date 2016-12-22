@@ -1,19 +1,9 @@
 ﻿using Microsoft.Win32;
+using MultiThreadMusicPlayer.Media;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MultiThreadMusicPlayer
 {
@@ -22,7 +12,10 @@ namespace MultiThreadMusicPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+        PlayList PListOne;
+        PlayList PListTwo;
+        Track SelectedTrackOne;
+        Track SelectedTrackTwo;
         MediaPlayer MPlayerOne;
         MediaPlayer MPlayerTwo;
         private bool IsOpened;
@@ -32,12 +25,13 @@ namespace MultiThreadMusicPlayer
             InitializeComponent();
             MPlayerOne = new MediaPlayer();
             MPlayerTwo = new MediaPlayer();
+            PListOne = new PlayList();
+            PListTwo = new PlayList();
         }
 
         private void Play(object player)
         {
             MediaPlayer Player = player as MediaPlayer;
-
             Player.Play();
         }
 
@@ -58,12 +52,13 @@ namespace MultiThreadMusicPlayer
         {
             OpenFileDialog fd = new OpenFileDialog();
             fd.DefaultExt = ".mp3";
-            fd.Filter = "Music files (.mp3)|*.mp3";
+            fd.Filter = "Music files |*.mp3";
             bool? result = fd.ShowDialog();
-
+            
             if (result == true)
             {
-                MPlayerOne.Open(new Uri(fd.FileName, UriKind.Absolute));
+                PListOne.Add(new Track() { Name = fd.Title, ID = fd.FileName  });
+               // MPlayerOne.Open(new Uri(fd.FileName, UriKind.Absolute));
                 IsOpened = true;
             }
         }
@@ -71,18 +66,18 @@ namespace MultiThreadMusicPlayer
         private void Play_1(object sender, RoutedEventArgs e)
         {
             if (IsOpened)
-                Dispatcher.BeginInvoke(new ParameterizedThreadStart(Play), MPlayerOne);
+                Dispatcher.BeginInvoke(new ParameterizedThreadStart(Play), MPlayerOne, SelectedTrackOne);
 
         }
 
         private void Pause_1(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Pause), MPlayerOne);
+            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Pause), MPlayerOne, SelectedTrackOne);
         }
 
         private void Stop_1(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Stop), MPlayerOne);
+            Dispatcher.BeginInvoke(new ParameterizedThreadStart(Stop), MPlayerOne, SelectedTrackOne);
         }
 
         private void Open_Track_2(object sender, RoutedEventArgs e)
@@ -94,7 +89,8 @@ namespace MultiThreadMusicPlayer
 
             if (result == true)
             {
-                MPlayerTwo.Open(new Uri(fd.FileName, UriKind.Absolute));
+                PListTwo.Add(new Track() { Name = fd.Title, ID = fd.FileName });
+               // MPlayerTwo.Open(new Uri(fd.FileName, UriKind.Absolute));
                 IsOpened = true;
             }
         }
