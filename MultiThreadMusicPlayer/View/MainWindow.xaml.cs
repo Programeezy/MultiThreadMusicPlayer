@@ -89,8 +89,7 @@ namespace MultiThreadMusicPlayer
             if (result == true)
             {
                 PListTwo.Add(new Track() { Name = fd.FileName, ID = fd.FileName });
-               
-                IsOpened = true;
+
             }
         }
 

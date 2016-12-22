@@ -7,7 +7,33 @@
         mc:Ignorable="d"
         Title="Media Player by DarkHacker228" Height="350" Width="514.474">
     <Window.Resources>
-    
+        <Style x:Key="anim_button" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Background" Value="Aquamarine"/>
+            <Style.Triggers>
+                
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="Blue" 
+                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
+                                    FillBehavior="Stop" 
+                                    Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="Aquamarine" 
+                                    Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" 
+                                    FillBehavior="Stop"
+                                    Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid Margin="0,0,205,0">
         <TabControl x:Name="tabControl" Margin="10,0,-197,10">
@@ -18,10 +44,10 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <Button Content="Open" Click="Open_Track_1"/>
-                        <Button Content="Play" Click="Play_1"/>
-                        <Button Content="Pause" Click="Pause_1"/>
-                        <Button Content="Stop" Click="Stop_1" />
+                        <Button Content="Open" Style="{StaticResource anim_button}"  Click="Open_Track_1"/>
+                        <Button Content="Play" Style="{StaticResource anim_button}" Click="Play_1"/>
+                        <Button Content="Pause" Style="{StaticResource anim_button}" Click="Pause_1"/>
+                        <Button Content="Stop" Style="{StaticResource anim_button}" Click="Stop_1" />
                     </StackPanel>
                     <ListBox Name="PlayList_1" DisplayMemberPath="Name"   Grid.Column="1" >
                       
@@ -35,10 +61,10 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <Button  Content="Open" Click="Open_Track_2"/>
-                        <Button Content="Play" Click="Play_2"/>
-                        <Button Content="Pause" Click="Pause_2"/>
-                        <Button Content="Stop" Click="Stop_2" />
+                        <Button  Content="Open" Style="{StaticResource anim_button}" Click="Open_Track_2"/>
+                        <Button Content="Play" Style="{StaticResource anim_button}" Click="Play_2"/>
+                        <Button Content="Pause" Style="{StaticResource anim_button}" Click="Pause_2"/>
+                        <Button Content="Stop" Style="{StaticResource anim_button}" Click="Stop_2" />
                     </StackPanel>
                     <ListBox Name="PlayList_2" DisplayMemberPath="Name"   Grid.Column="1" />
                 </Grid>
