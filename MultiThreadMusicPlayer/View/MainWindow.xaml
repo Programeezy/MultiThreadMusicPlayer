@@ -7,40 +7,7 @@
         mc:Ignorable="d"
         Title="Media Player by DarkHacker228" Height="350" Width="514.474">
     <Window.Resources>
-        <Style x:Key="m_btn" TargetType="Button">
-            
-           
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Button.MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimationUsingKeyFrames
-                                 Storyboard.TargetProperty
-                                ="" >
-                                <LinearColorKeyFrame
-                KeyTime="0:0:2"
-                Value="Red"/>
-                                <LinearColorKeyFrame
-                KeyTime="0:0:4"
-                Value="Red"/>
-                                <LinearColorKeyFrame
-                KeyTime="0:0:6"
-                Value="Green"/>
-                            </ColorAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                
-                <EventTrigger RoutedEvent="Button.MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                         
-                         
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
+    
     </Window.Resources>
     <Grid Margin="0,0,205,0">
         <TabControl x:Name="tabControl" Margin="10,0,-197,10">
