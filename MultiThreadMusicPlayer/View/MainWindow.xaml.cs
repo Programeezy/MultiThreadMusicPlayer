@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace MultiThreadMusicPlayer
 {
@@ -13,29 +14,67 @@ namespace MultiThreadMusicPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        PlayList PListOne
-        {
-            get; set;
-        }
+        PlayList PListOne;
         PlayList PListTwo;
 
-        private bool IsOpened;
-
+        Track SelectedTrackOne;
+        Track SelectedTrackTwo;
+     
         public MainWindow()
         {
             InitializeComponent();
            
             PListOne = new PlayList();
             PListTwo = new PlayList();
+            SelectedTrackOne = new Track();
+            SelectedTrackTwo = new Track();
             PlayList_1.ItemsSource = PListOne;
             PlayList_2.ItemsSource = PListTwo;
         }
 
-        private void Play(Track selectedTrack)
+        private void timer_Tick_1(object sender, EventArgs e)
         {
+            if(SelectedTrackOne.NaturalDuration.HasTimeSpan)
+            {
+                Thread_1_Slider.Minimum = 0;
+                Thread_1_Slider.Maximum = SelectedTrackOne.NaturalDuration.TimeSpan.TotalSeconds;
+                Thread_1_Slider.Value = SelectedTrackOne.Position.TotalSeconds;
+            }
+        }
+
+        private void timer_Tick_2(object sender, EventArgs e)
+        {
+
+            if (SelectedTrackTwo.NaturalDuration.HasTimeSpan)
+            {
+                Thread_2_Slider.Minimum = 0;
+                Thread_2_Slider.Maximum = SelectedTrackTwo.NaturalDuration.TimeSpan.TotalSeconds;
+                Thread_2_Slider.Value = SelectedTrackTwo.Position.TotalSeconds;
+            }
+        }
+
+        private void Play(Track selectedTrack, Slider timeSlider)
+        {
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+
+            if (timeSlider.Equals(Thread_1_Slider))
+                timer.Tick += timer_Tick_1;
+
+            else timer.Tick += timer_Tick_2;
+           
+      
             if (selectedTrack != null)
-                selectedTrack.Open(new Uri(selectedTrack.ID, UriKind.Absolute));
-            selectedTrack.Play();
+            {
+                if(selectedTrack.Position.Seconds == 0)
+                    selectedTrack.Open(new Uri(selectedTrack.ID, UriKind.Absolute));
+
+                selectedTrack.Play();    
+                timer.Start();
+
+                
+            }
         }
 
         private void Pause(Track selectedTrack)
@@ -65,7 +104,8 @@ namespace MultiThreadMusicPlayer
 
         private void Play_1(object sender, RoutedEventArgs e)
         {
-                Dispatcher.BeginInvoke(new Action<Track>(Play), PlayList_1.SelectedItem);
+            SelectedTrackOne = (Track)PlayList_1.SelectedItem;
+            Dispatcher.BeginInvoke(new Action<Track, Slider>(Play), PlayList_1.SelectedItem, Thread_1_Slider);
 
         }
 
@@ -95,8 +135,8 @@ namespace MultiThreadMusicPlayer
 
         private void Play_2(object sender, RoutedEventArgs e)
         {
-            if (IsOpened)
-                Dispatcher.BeginInvoke(new Action<Track>(Play), PlayList_2.SelectedItem);
+            SelectedTrackTwo = (Track)PlayList_2.SelectedItem;
+            Dispatcher.BeginInvoke(new Action<Track, Slider>(Play), PlayList_2.SelectedItem, Thread_2_Slider);
 
         }
 

@@ -48,6 +48,8 @@
                         <Button Content="Play" Style="{StaticResource anim_button}" Click="Play_1"/>
                         <Button Content="Pause" Style="{StaticResource anim_button}" Click="Pause_1"/>
                         <Button Content="Stop" Style="{StaticResource anim_button}" Click="Stop_1" />
+                        <Slider Name="Thread_1_Slider"  />
+                        
                     </StackPanel>
                     <ListBox Name="PlayList_1" DisplayMemberPath="Name"   Grid.Column="1" >
                       
@@ -65,6 +67,7 @@
                         <Button Content="Play" Style="{StaticResource anim_button}" Click="Play_2"/>
                         <Button Content="Pause" Style="{StaticResource anim_button}" Click="Pause_2"/>
                         <Button Content="Stop" Style="{StaticResource anim_button}" Click="Stop_2" />
+                        <Slider Name="Thread_2_Slider"  />
                     </StackPanel>
                     <ListBox Name="PlayList_2" DisplayMemberPath="Name"   Grid.Column="1" />
                 </Grid>
